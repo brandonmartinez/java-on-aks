@@ -75,7 +75,6 @@ In addition, you will need the following:
 [ACR Docker Credential Helper](https://github.com/Azure/acr-docker-credential-helper)
 | [Docker](https://docs.docker.com/v17.09/engine/installation/) |
 [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) |
-[Helm](https://helm.sh/docs/intro/install/) |
 [dos2unix](https://brewinstall.org/install-dos2unix-on-mac-with-brew/) |
 
 ## IMPORTANT - Start Here

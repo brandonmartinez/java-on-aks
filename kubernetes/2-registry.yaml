@@ -10,9 +10,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - name: http
-    port: 8761
-    targetPort: 8761
+    - name: http
+      port: 8761
+      targetPort: 8761
   selector:
     project: piggymetrics
     tier: middleware
@@ -45,16 +45,17 @@ spec:
         app: registry
     spec:
       containers:
-      - env:
-        - name: CONFIG_SERVICE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: piggymetrics
-              key: config_service_password
-        image: ${CONTAINER_REGISTRY}.azurecr.io/piggymetrics-registry:${IMAGE_TAG}
-        name: registry
-        ports:
-        - containerPort: 8761
-        resources: {}
+        - env:
+            - name: CONFIG_SERVICE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: piggymetrics
+                  key: config_service_password
+          image: ${CONTAINER_REGISTRY}.azurecr.io/piggymetrics-registry:${IMAGE_TAG}
+          imagePullPolicy: Always
+          name: registry
+          ports:
+            - containerPort: 8761
+          resources: {}
       restartPolicy: Always
 status: {}

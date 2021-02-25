@@ -1,10 +1,11 @@
 ---
 page_type: sample
 languages:
-- java
+  - java
 products:
-- Azure Kubernetes Service
-description: "End-to-end experience for Java apps in Azure Kubernetes Service (AKS)"
+  - Azure Kubernetes Service
+description:
+  "End-to-end experience for Java apps in Azure Kubernetes Service (AKS)"
 urlFragment: "java-on-aks"
 ---
 
@@ -12,7 +13,8 @@ urlFragment: "java-on-aks"
 
 ![](https://github.com/actions/java-on-aks/workflows/Build%20%26%20Deploy%20to%20AKS/badge.svg)
 
-This guide walks you through how to deploy and manage Java apps on the Azure Kubernetes Service.
+This guide walks you through how to deploy and manage Java apps on the Azure
+Kubernetes Service.
 
 <!--
 
@@ -30,54 +32,56 @@ This guide walks you through how to deploy and manage Java apps on the Azure Kub
 - Rapidly deploy changes to Azure Kubernetes without disruption - blue-green deployments
 - Scale out Java apps in Azure Kubernetes Service (DONE)
 - Congratulations! (DONE)
-- Resources 
+- Resources
 
 -->
 
 ![](./media/java-on-aks.jpg)
+
 <!--
-![](./media/java.jpeg) ![](./media/kubernetes.png) ![](./media/aks-logo.png) ![](./media/acr.png) 
+![](./media/java.jpeg) ![](./media/kubernetes.png) ![](./media/aks-logo.png) ![](./media/acr.png)
 -->
 
 ## What will you experience
 
 You will:
-- Build Piggymetrics - build a proof-of-concept application, which demonstrates 
-micro service architecture pattern using Spring Boot and Spring Cloud
+
+- Build Piggymetrics - build a proof-of-concept application, which demonstrates
+  micro service architecture pattern using Spring Boot and Spring Cloud
 - Create Mongodb and RabbitMQ on Azure
 - Create Azure Kubernetes Service and Azure Container Registry
 - Deploy Piggymetrics to Azure Kubernetes Service
 - Troubleshoot Java apps in Azure Kubernetes Service
-- Automate and rapidly deploy changes to Azure Kubernetes Service - using GitHub Actions or Azure Pipelines
-- Rapidly deploy changes to Azure Kubernetes without disruption - blue-green deployments
+- Automate and rapidly deploy changes to Azure Kubernetes Service - using GitHub
+  Actions or Azure Pipelines
+- Rapidly deploy changes to Azure Kubernetes without disruption - blue-green
+  deployments
 - Scale out Java apps in Azure Kubernetes Service
 - Learn about next steps to production
 
 ## What you will need
 
-In order to deploy a Java Web app to cloud, you need 
-an Azure subscription. If you do not already have an Azure 
-subscription, you can activate your 
-[MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/) 
-or sign up for a 
-[free Azure account]((https://azure.microsoft.com/pricing/free-trial/)).
+In order to deploy a Java Web app to cloud, you need an Azure subscription. If
+you do not already have an Azure subscription, you can activate your
+[MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/)
+or sign up for a
+[free Azure account](<(https://azure.microsoft.com/pricing/free-trial/)>).
 
 In addition, you will need the following:
 
-| [Azure CLI](http://docs.microsoft.com/cli/azure/overview) 
-| [Java 8](https://www.azul.com/downloads/azure-only/zulu) 
-| [Maven 3](http://maven.apache.org/) 
-| [Git](https://github.com/) 
-| [ACR Docker Credential Helper](https://github.com/Azure/acr-docker-credential-helper)
-| [Docker](https://docs.docker.com/v17.09/engine/installation/)
-| [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-| [Helm](https://helm.sh/docs/intro/install/)
-| [dos2unix](https://brewinstall.org/install-dos2unix-on-mac-with-brew/)
-|
+| [Azure CLI](http://docs.microsoft.com/cli/azure/overview) |
+[Java 8](https://www.azul.com/downloads/azure-only/zulu) |
+[Maven 3](http://maven.apache.org/) | [Git](https://github.com/) |
+[ACR Docker Credential Helper](https://github.com/Azure/acr-docker-credential-helper)
+| [Docker](https://docs.docker.com/v17.09/engine/installation/) |
+[Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) |
+[Helm](https://helm.sh/docs/intro/install/) |
+[dos2unix](https://brewinstall.org/install-dos2unix-on-mac-with-brew/) |
 
 ## IMPORTANT - Start Here
 
 Clone this GitHub repo and change directory:
+
 ```bash
 git clone https://github.com/Azure-Samples/java-on-aks.git
 
@@ -86,22 +90,23 @@ cd java-on-aks
 
 ## Create MongoDB and RabbitMQ
 
-You can create MongoDB and RabbitMQ on Azure by following steps outlined [here](./docs/create-mongodb-and-rabbitmq.md)
-and capture MongoDB and RabbitMQ coordinates and credentials in 
-`setup-env-variables-azure.sh`. 
+You can create MongoDB and RabbitMQ on Azure by following steps outlined
+[here](./docs/create-mongodb-and-rabbitmq.md) and capture MongoDB and RabbitMQ
+coordinates and credentials in `setup-env-variables-azure.sh`.
 
 ## Create Azure Container Registry and Azure Kubernetes Service
 
 ### Create Azure Container Registry
-If you have not yet setup the development environment, 
-make a copy of the setup environment variables bash script:
+
+If you have not yet setup the development environment, make a copy of the setup
+environment variables bash script:
+
 ```bash
 cp .scripts/setup-env-variables-azure-template.sh .scripts/setup-env-variables-azure.sh
 ```
 
-Prep the dev environment by populating environment variables in 
-`.scripts/setup-env-variables-azure.sh`
-bash script:
+Prep the dev environment by populating environment variables in
+`.scripts/setup-env-variables-azure.sh` bash script:
 
 ```bash
 # ====== Piggy Metrics Azure Coordinates
@@ -135,16 +140,17 @@ source .scripts/setup-env-variables-azure.sh
 ```
 
 Create an Azure Container Registry instance using Azure CLI:
+
 ```bash
 # Create a Resource Group, if you have not created one
 az group create --name ${RESOURCE_GROUP} \
     --location ${REGION}
-    
+
 # Create Azure Container Registry
 az acr create --name ${CONTAINER_REGISTRY} \
     --resource-group ${RESOURCE_GROUP} \
     --sku basic --location ${REGION}
-    
+
 # Log into Azure Container Registry
 az acr login -n ${CONTAINER_REGISTRY}
 
@@ -152,7 +158,9 @@ az acr login -n ${CONTAINER_REGISTRY}
 
 ### Create Azure Kubernetes Service
 
-Create an Azure Kubernetes Service instance and attach the Azure Container Registry using Azure CLI:
+Create an Azure Kubernetes Service instance and attach the Azure Container
+Registry using Azure CLI:
+
 ```bash
 az aks create --name ${AKS_CLUSTER} \
     --resource-group ${RESOURCE_GROUP} \
@@ -163,6 +171,7 @@ az aks create --name ${AKS_CLUSTER} \
 ```
 
 Get access credentials for the AKS cluster:
+
 ```bash
 az aks get-credentials --name ${AKS_CLUSTER} \
     --resource-group ${RESOURCE_GROUP}
@@ -171,38 +180,23 @@ az aks get-credentials --name ${AKS_CLUSTER} \
 ### Auto instrument for monitoring Java apps on Azure Kubernetes Service
 
 If you do not have an instance of Application Insights, see
- [how to create Application Insights](./docs/create-application-insights.md).
+[how to create Application Insights](./docs/create-application-insights.md).
 
-Download Java agent ([download link](https://github.com/microsoft/Application-Insights-K8s-Codeless-Attach/releases))
-for auto instrumenting for monitoring Java apps on an Azure Kubernetes Service.
-
-From a Linux or MacOS terminal, execute init.sh from the release.
-
-```bash
-source init.sh
-```
-
-Open the generated `values.yaml` file in an editor and fill up Kubernetes Cluster
- target namespace, say `default`, and Application Insights `Instrumentation Key`. Like this:
- 
-```yaml
-namespaces: 
-  - target : "default" # kubernetes namespace where the Java apps will be auto-instrumented
-    iKey: "c197cf6b-WWWW-XXXX-YYYY-ZZZZZZZZZZZZ" # Instrumentation Key of the receiving Application Insights resource
-```
-
-Install the Java agent for auto instrumentation:
-```bash
-helm install ./helm-<version>.tgz -f values.yaml --generate-name
-```
+Download Java agent
+([download link](https://docs.microsoft.com/en-us/azure/azure-monitor/app/java-in-process-agent#quickstart))
+and extract to the `.tmp` directory in this project. Rename the `jar` file to
+`applicationinsights-agent.jar`. Copy the `applicationinsights-sample.json` file
+to `applicationinsights.json` and update with your Application Insights
+connection string.
 
 ## Deploy Piggymetrics to Azure Kubernetes Service
 
 ### Build and push container images for micro service apps
 
 Build Java apps, container images and push images to Azure Container Registry
-using Maven and [Jib](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin):
- 
+using Maven and
+[Jib](https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin):
+
 ```bash
 cd config
 mvn compile jib:build \
@@ -231,7 +225,9 @@ mvn compile jib:build \
 
 ```
 
-Jib is configured to start from a production-ready distribution of Java. For example:
+Jib is configured to start from a production-ready distribution of Java. For
+example:
+
 ```xml
 <plugin>
     <groupId>com.google.cloud.tools</groupId>
@@ -271,9 +267,11 @@ cd ../kubernetes
 source ../.scripts/prepare-kubernetes-manifest-files.sh
 
 ```
+
 ### Create Secrets in Kubernetes
 
 You can create Secrets for deploying micro service apps in Kubernetes:
+
 ```bash
 kubectl apply -f deploy/0-secrets.yaml
 
@@ -284,6 +282,7 @@ kubectl get secret piggymetrics -o yaml
 ### Deploy Spring Cloud Config Server
 
 You can deploy the Spring Cloud Config Server to Kubernetes:
+
 ```bash
 kubectl apply -f deploy/1-config.yaml
 ```
@@ -291,12 +290,13 @@ kubectl apply -f deploy/1-config.yaml
 ### Deploy Spring Cloud Service Registry
 
 You can deploy the Spring Cloud Service Registry to Kubernetes:
+
 ```bash
 kubectl apply -f deploy/2-registry.yaml
 ```
 
-You can validate that a Spring Cloud Config Server is up and running by
-invoking its REST API.
+You can validate that a Spring Cloud Config Server is up and running by invoking
+its REST API.
 
 The Spring Cloud Config Server REST API has resources in the following form:
 
@@ -308,8 +308,8 @@ The Spring Cloud Config Server REST API has resources in the following form:
 /{label}/{application}-{profile}.properties
 ```
 
-You can get IP addresses of Spring Cloud Config Server and Spring Cloud Service Registry 
-using `kubectl`:
+You can get IP addresses of Spring Cloud Config Server and Spring Cloud Service
+Registry using `kubectl`:
 
 ```bash
 kubectl get services
@@ -320,6 +320,7 @@ registry     LoadBalancer   10.0.198.13   52.137.96.211   8761:31689/TCP   6s
 ```
 
 Try:
+
 ```bash
 open http://<EXTERNAL-IP-of-config>:8888/gateway/profile
 open http://<EXTERNAL-IP-of-config>:8888/account-service/profile
@@ -332,7 +333,7 @@ open http://<EXTERNAL-IP-of-config>:8888/notification-service/profile/developmen
 
 ![](./media/spring-cloud-config-server-running-in-kubernetes.jpg)
 
-You can validate that a Spring Cloud Service Registry is up and running by 
+You can validate that a Spring Cloud Service Registry is up and running by
 opening the Service Registry Dashboard:
 
 ```bash
@@ -344,11 +345,12 @@ open http://<EXTERNAL-IP-of-registry>:8761/
 ### Deploy Spring Cloud Gateway
 
 You can deploy the Spring Cloud Gateway to Kubernetes:
+
 ```bash
 kubectl apply -f deploy/3-gateway.yaml
 ```
 
-### Deploy 4 Spring Cloud micro service apps 
+### Deploy 4 Spring Cloud micro service apps
 
 You can deploy Spring Cloud micro service apps to Kubernetes:
 
@@ -359,7 +361,8 @@ kubectl apply -f deploy/6-statistics-service.yaml
 kubectl apply -f deploy/7-notification-service.yaml
 ```
 
-You can validate that Spring Cloud middleware components and micro service apps are running:
+You can validate that Spring Cloud middleware components and micro service apps
+are running:
 
 ```bash
 kubectl get services
@@ -374,12 +377,13 @@ registry               LoadBalancer   10.0.198.13    52.137.96.211   8761:31689/
 statistics-service     ClusterIP      10.0.217.229   <none>          7000/TCP         76s
 ```
 
-You can also validate that by 
-opening the Spring Cloud Service Registry Dashboard
+You can also validate that by opening the Spring Cloud Service Registry
+Dashboard
 
 ```bash
 open http://<EXTERNAL-IP-of-registry>:8761/
 ```
+
 ![](./media/spring-cloud-service-registry-running-in-kubernetes-02.jpg)
 
 ### Open Spring Cloud micro service apps running on Kubernetes
@@ -390,7 +394,7 @@ Open the Piggymetrics landing page by using the`gateway` app's `EXTERNAL-IP`.
 open http://<EXTERNAL-IP-of-gateway>/
 ```
 
-For example: 
+For example:
 
 ![](./media/piggy-metrics-first-page.jpg)
 
@@ -402,22 +406,24 @@ For example:
 
 ## Troubleshooting micro service apps in Azure Kubernetes Service
 
-With out-of-the-box support for aggregating logs, metrics, and 
-distributed app traces into Azure Monitor, you can easily visualize 
-how your applications are performing, detect and diagnose issues 
-across micro service applications and their dependencies, drill 
-into monitoring data for troubleshooting and gain better 
-understanding of what end-users do with your apps.
+With out-of-the-box support for aggregating logs, metrics, and distributed app
+traces into Azure Monitor, you can easily visualize how your applications are
+performing, detect and diagnose issues across micro service applications and
+their dependencies, drill into monitoring data for troubleshooting and gain
+better understanding of what end-users do with your apps.
 
 ### Debug in development machine
-You can run Spring Cloud Config, Spring Cloud Service Registry, 
-Spring Cloud Gateway and other Spring Cloud components on their dev machine. 
-You can attach debuggers to Spring Cloud micro service apps and step through them. You can 
-look at logs and metrics. Use Java Flight Recorder, etc.
+
+You can run Spring Cloud Config, Spring Cloud Service Registry, Spring Cloud
+Gateway and other Spring Cloud components on their dev machine. You can attach
+debuggers to Spring Cloud micro service apps and step through them. You can look
+at logs and metrics. Use Java Flight Recorder, etc.
 
 ### Stream logs from micro service apps in cloud to development machines
-You can stream logs from micro service apps running on Kubernetes to your 
+
+You can stream logs from micro service apps running on Kubernetes to your
 development machine using `kubectl`, like:
+
 ```bash
 # Stream logs from Spring Cloud Config Server
 kubectl logs -f --timestamps=true -l app=config
@@ -437,22 +443,22 @@ kubectl logs -f --timestamps=true -l app=notification-service
 
 ### Use aggregated logs and metrics in Azure Log Analytics
 
-You can aggregate logs in Azure Log Analytics and retrieve them 
-using Kusto queries. If you do not have a Log Analytics Workspace in Azure, 
-see [how to create a Log Analytics Workspace](./docs/create-log-analytics.md)
+You can aggregate logs in Azure Log Analytics and retrieve them using Kusto
+queries. If you do not have a Log Analytics Workspace in Azure, see
+[how to create a Log Analytics Workspace](./docs/create-log-analytics.md)
 
-You can onboard your Kubernetes cluster to Azure Monitor for monitoring, by clicking
-on the `Logs` blade in the Azure Portal and choosing your Log Analytics Workspace:
+You can onboard your Kubernetes cluster to Azure Monitor for monitoring, by
+clicking on the `Logs` blade in the Azure Portal and choosing your Log Analytics
+Workspace:
 
 ![](./media/onboard-kubernetes-cluster-to-azure-monitor.jpg)
 
+Then, you can view logs using Kusto queries in the `Logs` blade of your Log
+Analytics Workspace: ![](./media/view-logs-in-log-analytics-workspace.jpg)
 
-Then, you can view logs using Kusto queries in the `Logs` blade of your 
-Log Analytics Workspace:
-![](./media/view-logs-in-log-analytics-workspace.jpg)
-
-Here are some sample Kusto queries for viewing logs for each of the micro service apps -
-please replace `java-on-aks` with your Azure Kubernetes cluster name:
+Here are some sample Kusto queries for viewing logs for each of the micro
+service apps - please replace `java-on-aks` with your Azure Kubernetes cluster
+name:
 
 ```sql
 -- Logs for Spring Cloud Config Server
@@ -462,7 +468,7 @@ let ContainerIdList = KubePodInventory
 | distinct ContainerID;
 ContainerLog
 | where ContainerID in (ContainerIdList)
-| where LogEntry !contains "AI:" 
+| where LogEntry !contains "AI:"
 | project LogEntrySource, LogEntry, TimeGenerated, Computer, Image, Name, ContainerID
 | order by TimeGenerated desc
 | render table
@@ -475,7 +481,7 @@ let ContainerIdList = KubePodInventory
 | distinct ContainerID;
 ContainerLog
 | where ContainerID in (ContainerIdList)
-| where LogEntry !contains "AI:" 
+| where LogEntry !contains "AI:"
 | project LogEntrySource, LogEntry, TimeGenerated, Computer, Image, Name, ContainerID
 | order by TimeGenerated desc
 | render table
@@ -488,7 +494,7 @@ let ContainerIdList = KubePodInventory
 | distinct ContainerID;
 ContainerLog
 | where ContainerID in (ContainerIdList)
-| where LogEntry !contains "AI:" 
+| where LogEntry !contains "AI:"
 | project LogEntrySource, LogEntry, TimeGenerated, Computer, Image, Name, ContainerID
 | order by TimeGenerated desc
 | render table
@@ -501,7 +507,7 @@ let ContainerIdList = KubePodInventory
 | distinct ContainerID;
 ContainerLog
 | where ContainerID in (ContainerIdList)
-| where LogEntry !contains "AI:" 
+| where LogEntry !contains "AI:"
 | project LogEntrySource, LogEntry, TimeGenerated, Computer, Image, Name, ContainerID
 | order by TimeGenerated desc
 | render table
@@ -514,29 +520,32 @@ let ContainerIdList = KubePodInventory
 | distinct ContainerID;
 ContainerLog
 | where ContainerID in (ContainerIdList)
-| where LogEntry !contains "AI:" 
+| where LogEntry !contains "AI:"
 | project LogEntrySource, LogEntry, TimeGenerated, Computer, Image, Name, ContainerID
 | order by TimeGenerated desc
 | render table
 
 ```
+
 ### Use Application Insights to monitor your micro service apps
 
-You can use Application Insights to monitor your live web application. It will 
-automatically detect performance anomalies. It includes powerful analytics tools to 
-help you diagnose issues and to understand what users actually do with your app. It is designed to 
-help you continuously improve performance and usability.
+You can use Application Insights to monitor your live web application. It will
+automatically detect performance anomalies. It includes powerful analytics tools
+to help you diagnose issues and to understand what users actually do with your
+app. It is designed to help you continuously improve performance and usability.
 
-After some time, you can see distributed tracing in the 
-configured Application Insights instance. Go to the `Application Map' blade in the Azure Portal:
+After some time, you can see distributed tracing in the configured Application
+Insights instance. Go to the `Application Map' blade in the Azure Portal:
 ![](./media/distributed-tracing.jpg)
 
-Also, you can view the performance and call drill downs in the `Performance` blade:
-![](./media/view-performance-in-app-insights.jpg)
+Also, you can view the performance and call drill downs in the `Performance`
+blade: ![](./media/view-performance-in-app-insights.jpg)
 
 ## Automate and rapidly deploy changes to Azure Kubernetes Service - GitHub Actions or Azure Pipelines
 
-Create an Azure Pipelines CI/CD pipeline that automatically builds the code and deploys it to the Azure Kubernetes Cluster whenever there's a commit to the repository.
+Create an Azure Pipelines CI/CD pipeline that automatically builds the code and
+deploys it to the Azure Kubernetes Cluster whenever there's a commit to the
+repository.
 
 ### Prerequisites
 
@@ -544,62 +553,106 @@ There are some additional prerequisites for this automation:
 
 - [GitHub Account](https://github.com/)
 - [Azure DevOps Organization](https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/pipelines-sign-up?view=azure-devops)
-- [Environment with AKS resource](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/environments-kubernetes?view=azure-devops#azure-kubernetes-service) which creates a service account in the chosen cluster and namespace, which will be used by Azure DevOps account to deploy to AKS
-- [Azure service connection using service principal](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-with-an-existing-service-principal) to establish authentication between Azure & Azure DevOps services
-> [!Important]
-   > To simplify the service connection, use the same email address for Azure DevOps as you use for Azure.
-- Create an Azure KeyVault and upload secrets. Ensure the service principal used in the service connection above has GET, LIST [permissions](https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-set-policy) on the vault. Use below command for that:
+- [Environment with AKS resource](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/environments-kubernetes?view=azure-devops#azure-kubernetes-service)
+  which creates a service account in the chosen cluster and namespace, which
+  will be used by Azure DevOps account to deploy to AKS
+- [Azure service connection using service principal](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-with-an-existing-service-principal)
+  to establish authentication between Azure & Azure DevOps services
+  > [!Important] To simplify the service connection, use the same email address
+  > for Azure DevOps as you use for Azure.
+- Create an Azure KeyVault and upload secrets. Ensure the service principal used
+  in the service connection above has GET, LIST
+  [permissions](https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-set-policy)
+  on the vault. Use below command for that:
+
 ```
 az keyvault set-policy -n $KV_NAME --secret-permissions get list --spn <clientId from the Azure SPN JSON>
-```  
- 
+```
+
 ### Azure Pipelines
 
-1. Sign into Azure Pipelines and Create a Pipeline using the [`azure-pipelines.yml`](./azure-pipelines.yml) file. 
+1. Sign into Azure Pipelines and Create a Pipeline using the
+   [`azure-pipelines.yml`](./azure-pipelines.yml) file.
 
-2. Take a look at the pipeline to see what it does. Make sure that all the default inputs are appropriate for your code.
+2. Take a look at the pipeline to see what it does. Make sure that all the
+   default inputs are appropriate for your code.
 
-    The azure-pipelines.yml file contains the following key elements:
+   The azure-pipelines.yml file contains the following key elements:
 
-    - The `trigger` at the top indicates the commits that trigger the pipeline, such as commits to the `master` branch.
-    - The `variables` which parameterize the YAML template
-    - The `stages`
-       - Build `stage`, which builds your app, and a Deploy `stage`, which deploys it to AKS cluster.
-       - Deploy `stage` also refers the Environment with Kubernetes resource. Ensure to modify the environment name to the one that you have created.
-    - [AzureKeyVault](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops) task is used in both the stages to fetch the secrets from Azure Key Vault instance and set as variables. In the `Deploy` stage, these variables are used to set secrets in the pods.
-    - [Kubernetes Manifest task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/kubernetes-manifest?view=azure-devops) has the added benefits of being able to check for object stability before marking a task as success/failure, perform artifact substitution, add pipeline traceability-related annotations onto deployed objects, simplify creation and referencing of imagePullSecrets
+   - The `trigger` at the top indicates the commits that trigger the pipeline,
+     such as commits to the `master` branch.
+   - The `variables` which parameterize the YAML template
+   - The `stages`
+     - Build `stage`, which builds your app, and a Deploy `stage`, which deploys
+       it to AKS cluster.
+     - Deploy `stage` also refers the Environment with Kubernetes resource.
+       Ensure to modify the environment name to the one that you have created.
+   - [AzureKeyVault](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-key-vault?view=azure-devops)
+     task is used in both the stages to fetch the secrets from Azure Key Vault
+     instance and set as variables. In the `Deploy` stage, these variables are
+     used to set secrets in the pods.
+   - [Kubernetes Manifest task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/kubernetes-manifest?view=azure-devops)
+     has the added benefits of being able to check for object stability before
+     marking a task as success/failure, perform artifact substitution, add
+     pipeline traceability-related annotations onto deployed objects, simplify
+     creation and referencing of imagePullSecrets
 
-    ![](./media/azure-pipelines-01.jpg)
+   ![](./media/azure-pipelines-01.jpg)
 
-3. After you've looked at what the pipeline does, select Save and run, after which you're prompted for a commit message because Azure Pipelines adds the azure-pipelines.yml file to your repository. After editing the message, select Save and run again to see your pipeline in action.
+3. After you've looked at what the pipeline does, select Save and run, after
+   which you're prompted for a commit message because Azure Pipelines adds the
+   azure-pipelines.yml file to your repository. After editing the message,
+   select Save and run again to see your pipeline in action.
 
-4. As your pipeline runs, watch as your build stage, and then your deployment stage, go from blue (running) to green (completed). You can select the stages and jobs to watch your pipeline in action.
+4. As your pipeline runs, watch as your build stage, and then your deployment
+   stage, go from blue (running) to green (completed). You can select the stages
+   and jobs to watch your pipeline in action.
 
-    ![](./media/azure-pipelines-02.jpg) 
+   ![](./media/azure-pipelines-02.jpg)
 
-5. Additionally, you can also explore Kubernetes objects created and the deployment history for the App by navigating to the "**Environment**". 
-    - From the pipeline **summary** -> Select the **Environments** tab -> Select **View environment**
-    - **Resources** view within the environment provides a glimpse of the status of objects within the namespace mapped to the resource. It also overlays pipeline traceability on top of these objects so that one can trace back from a Kubernetes object to the pipeline and then back to the commit.
+5. Additionally, you can also explore Kubernetes objects created and the
+   deployment history for the App by navigating to the "**Environment**".
 
-    ![](./media/azure-pipelines-03.jpg) 
+   - From the pipeline **summary** -> Select the **Environments** tab -> Select
+     **View environment**
+   - **Resources** view within the environment provides a glimpse of the status
+     of objects within the namespace mapped to the resource. It also overlays
+     pipeline traceability on top of these objects so that one can trace back
+     from a Kubernetes object to the pipeline and then back to the commit.
+
+   ![](./media/azure-pipelines-03.jpg)
 
 ### GitHub Actions
 
-You can also configure a 
-[Workflow to automate build and deploy](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/configuring-a-workflow) 
-in GitHub 
-using the [`workflow.yml`](./.github/workflows/workflow.yml). 
+You can also configure a
+[Workflow to automate build and deploy](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/configuring-a-workflow)
+in GitHub using the [`workflow.yml`](./.github/workflows/workflow.yml).
 
-- Create secrets for every parameter in `.scripts/setup-env-variables-azure-template.sh`.
-    - Set [GitHub Repo Secrets](https://aka.ms/create-secrets-for-GitHub-workflows) AZURE_CREDENTIALS, AKS_CLUSTER_NAME, AKS_RESOURCE_GROUP and AKS_NAMESPACE with Azure creds, AKS cluster name, resource group name and namespace
-    - For configuring App secrets, You could either set them as [GitHub Secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets) or fetch them from an Azure Key Vault instance.
+- Create secrets for every parameter in
+  `.scripts/setup-env-variables-azure-template.sh`.
+  - Set
+    [GitHub Repo Secrets](https://aka.ms/create-secrets-for-GitHub-workflows)
+    AZURE_CREDENTIALS, AKS_CLUSTER_NAME, AKS_RESOURCE_GROUP and AKS_NAMESPACE
+    with Azure creds, AKS cluster name, resource group name and namespace
+  - For configuring App secrets, You could either set them as
+    [GitHub Secrets](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+    or fetch them from an Azure Key Vault instance.
 - `workflow.yml` contains the following key elements:
 
-    - The `on: [push]` at the top indicates the commits that trigger the pipeline, such as every commit to the branch.
-    - The `env:` with variables which parameterize the YAML template
-    - The `jobs` : Build `job`, which builds your app, and a Deploy `job`, which deploys it to AKS cluster. Each job has `steps` which either `uses` an `action` or `run` a script, all of which execute on a hosted-runner defined by `runs-on`.
-    - [AzureKeyVault](https://github.com/Azure/get-keyvault-secrets) action is used in both the jobs to fetch the secrets from Azure Key Vault instance and set as environment variables. In the `Deploy` job, these variables are used to set secrets in the pods.
-    - [Actions to deploy to AKS](https://github.com/Azure/actions-workflow-samples/tree/master/Kubernetes) are then used to create imagepullsecret, set secrets on pods and finally to deploy to AKS cluster.
+  - The `on: [push]` at the top indicates the commits that trigger the pipeline,
+    such as every commit to the branch.
+  - The `env:` with variables which parameterize the YAML template
+  - The `jobs` : Build `job`, which builds your app, and a Deploy `job`, which
+    deploys it to AKS cluster. Each job has `steps` which either `uses` an
+    `action` or `run` a script, all of which execute on a hosted-runner defined
+    by `runs-on`.
+  - [AzureKeyVault](https://github.com/Azure/get-keyvault-secrets) action is
+    used in both the jobs to fetch the secrets from Azure Key Vault instance and
+    set as environment variables. In the `Deploy` job, these variables are used
+    to set secrets in the pods.
+  - [Actions to deploy to AKS](https://github.com/Azure/actions-workflow-samples/tree/master/Kubernetes)
+    are then used to create imagepullsecret, set secrets on pods and finally to
+    deploy to AKS cluster.
 
 ![](./media/github-actions-01.jpg)
 
@@ -610,6 +663,7 @@ using the [`workflow.yml`](./.github/workflows/workflow.yml).
 ## Scale out micro service apps in Azure Kubernetes Service
 
 You can scale out micro service apps in Azure Kubernetes Service:
+
 ```bash
 kubectl scale deployment gateway --replicas=4
 
@@ -629,27 +683,30 @@ Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavai
 
 ## Congratulations and Next Steps to Production
 
-Congratulations!! 
+Congratulations!!
 
-You built, deployed, scaled out and setup monitoring for Spring Cloud micro service apps
-using Spring Boot and Spring Cloud, Azure Kubernetes Service, Azure Container Registry,
-Azure Monitor, Log Analytics and Application Insights.
+You built, deployed, scaled out and setup monitoring for Spring Cloud micro
+service apps using Spring Boot and Spring Cloud, Azure Kubernetes Service, Azure
+Container Registry, Azure Monitor, Log Analytics and Application Insights.
 
-To advance Java deployments on Kubernetes to production, you should think 
-about the following next steps:
-- Frame a scalable infrastructure with Azure Kubernetes Service and Azure Container Registry
-to satisfy your deployments' business and technical requirements. See [Microservices architecture on Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks)
-- Frame a plan to assume infrastructure management -- including load balancers, clustering, 
-security, SSL offloading, domain name mapping, etc.
-- Define an application lifecyle for apps on Azure Kubernetes Service and use them
- across developer and DevOps automation tools. This lifecyle should include a 
- source-to-container strategy
-- Frame a plan to assume service management -- including configuration, managing secrets, backup & restore, 
-monitoring & log shipping, upgrades, auto-restart, auto-scale or manual-scale, etc. If you are deploying 
-Spring Cloud micro service apps, service management should include 
-strategies for manually or dynamically scaling Spring Cloud middleware components - 
-Spring Cloud Config Server,
-Spring Cloud Service Registry, Spring Cloud Gateway, etc.
+To advance Java deployments on Kubernetes to production, you should think about
+the following next steps:
+
+- Frame a scalable infrastructure with Azure Kubernetes Service and Azure
+  Container Registry to satisfy your deployments' business and technical
+  requirements. See
+  [Microservices architecture on Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks)
+- Frame a plan to assume infrastructure management -- including load balancers,
+  clustering, security, SSL offloading, domain name mapping, etc.
+- Define an application lifecyle for apps on Azure Kubernetes Service and use
+  them across developer and DevOps automation tools. This lifecyle should
+  include a source-to-container strategy
+- Frame a plan to assume service management -- including configuration, managing
+  secrets, backup & restore, monitoring & log shipping, upgrades, auto-restart,
+  auto-scale or manual-scale, etc. If you are deploying Spring Cloud micro
+  service apps, service management should include strategies for manually or
+  dynamically scaling Spring Cloud middleware components - Spring Cloud Config
+  Server, Spring Cloud Service Registry, Spring Cloud Gateway, etc.
 
 ## Resources
 
@@ -671,19 +728,25 @@ Spring Cloud Service Registry, Spring Cloud Gateway, etc.
 
 ## Credits
 
-This Java micro services sample is forked from 
-[sqshq/Piggymetrics](https://github.com/sqshq/PiggyMetrics) - see [Piggymetrics README](./README-piggymetrics.md). 
+This Java micro services sample is forked from
+[sqshq/Piggymetrics](https://github.com/sqshq/PiggyMetrics) - see
+[Piggymetrics README](./README-piggymetrics.md).
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+This project welcomes contributions and suggestions. Most contributions require
+you to agree to a Contributor License Agreement (CLA) declaring that you have
+the right to, and actually do, grant us the rights to use your contribution. For
+details, visit https://cla.opensource.microsoft.com.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+When you submit a pull request, a CLA bot will automatically determine whether
+you need to provide a CLA and decorate the PR appropriately (e.g., status check,
+comment). Simply follow the instructions provided by the bot. You will only need
+to do this once across all repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the
+[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the
+[Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any
+additional questions or comments.

@@ -1,0 +1,3 @@
+{
+    "connectionString": "InstrumentationKey=XXXX-XXX-XXXXXXXX;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/"
+}

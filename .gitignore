@@ -21,3 +21,4 @@ piggymetrics/
 
 # Scripts
 .scripts/
+.tmp/

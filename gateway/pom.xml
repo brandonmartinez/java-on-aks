@@ -68,6 +68,7 @@
 						<jvmFlags>
 							<jvmFlag>-Xms2048m</jvmFlag>
 							<jvmFlag>-Xmx2048m</jvmFlag>
+							<jvmFlag>-javaagent:/app/resources/static/ai/applicationinsights-agent-3.0.2.jar</jvmFlag>
 						</jvmFlags>
 						<ports>
 							<port>${GATEWAY_PORT}</port>

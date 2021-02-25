@@ -622,7 +622,7 @@ Labels:                 app=gateway
                         tier=frontend
 Annotations:            deployment.kubernetes.io/revision: 1
                         kubectl.kubernetes.io/last-applied-configuration:
-                          {"apiVersion":"extensions/v1beta1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"gateway","project":"piggymetrics","ti...
+                          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"gateway","project":"piggymetrics","ti...
 Selector:               app=gateway,project=piggymetrics,tier=frontend
 Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
 ```
